@@ -17,8 +17,6 @@ class Matrix:
             C.append(row)
         return Matrix(C)
         
-    
-    
     def __mul__(self, other: 'Matrix') -> 'Matrix':
         x = self.size()[1]
         y = other.size()[0]
@@ -66,8 +64,6 @@ def caldet(matrix,wsp = 1):
     #create2x2 matrix
     m2x2 = Matrix((2,2))
     
-    
-    
     i = 1
     j = 0
     k = 0
@@ -89,7 +85,8 @@ def caldet(matrix,wsp = 1):
     while i < matrix.size()[1]:
         
         #if matrix was shorten to vector - break
-        try:
+        if matrix.size()[0] != 1:
+        
             m2x2[0][0] = matrix[0][0]
             m2x2[1][0] = matrix[1][0]
             m2x2[0][1] = matrix[0][i]
@@ -105,7 +102,7 @@ def caldet(matrix,wsp = 1):
                 i = 1
                 j = 0
                 
-        except IndexError:
+        else: 
             break    
     
     return caldet(C,wsp)        
