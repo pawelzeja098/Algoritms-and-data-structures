@@ -52,7 +52,7 @@ class Matrix:
 
 def transpose(matrix):
     C = Matrix((matrix.size()[1], matrix.size()[0]))
-    m, n = matrix.size()[0], matrix.size()[1]
+    m, n = matrix.size()
     for i in range(m):
         for j in range(n):
             C[j][i] = matrix[i][j]
