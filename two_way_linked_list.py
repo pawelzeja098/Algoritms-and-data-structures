@@ -12,7 +12,8 @@ class Linked_list:
     
     def __init__(self) -> None:
         self.head = None
-    
+        self.tail = None
+
     #add to the beggining of the list
     def add(self,data) -> None:
         new_node = Node(data)
@@ -64,7 +65,7 @@ class Linked_list:
         res = ''
         i = 0
         while(i < quantity):
-        # while(current_node):
+        
             res += str(current_node.data) + '\n'
             current_node = current_node.next
             i += 1
@@ -76,11 +77,7 @@ class Linked_list:
     def destroy(self) -> None:
         self.head = None
 
-    def tail(self):
-        pass
-
-    def prev(self):
-        pass
+    
 
     #observators
     def is_empty(self) -> bool:
