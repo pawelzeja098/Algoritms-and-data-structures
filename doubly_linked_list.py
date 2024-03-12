@@ -17,11 +17,13 @@ class Linked_list:
     #add to the beggining of the list
     def add(self,data) -> None:
         new_node = Node(data)
-        if self.head is None:
-            self.head = new_node
-        else:
-            new_node.next = self.head
-            self.head = new_node
+        new_node.next = self.head
+        new_node.prev = None
+
+        if self.head is not None:
+            self.head.prev = new_node
+        
+        self.head = new_node
     
     #add to the end of the list
     def append(self,data) -> None:
