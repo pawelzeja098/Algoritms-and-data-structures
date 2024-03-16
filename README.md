@@ -4,3 +4,4 @@ Solutions for Algorithms and Data Structures course on AGH in Automatic control 
 - Matrix class
 - Chio`s method
 - Linked list
+- Cirrcular array
