@@ -1,5 +1,6 @@
 class Queue:
     
+    #construct the queue
     def __init__(self,size = 5) -> None:
         self.tab = [None for i in range(size)]
         self.head = -1 #index to read
@@ -7,7 +8,7 @@ class Queue:
         self.size = size
         
 
-    
+    #double the size and realloc data in queue
     def realloc(self, size):
         oldSize = len(self.tab)
         self.tab = [self.tab[i] if i<oldSize else None  for i in range(size)]
@@ -23,6 +24,7 @@ class Queue:
         self.head += self.size
         self.size = size
     
+    #Add to the end of queue
     def enqueue(self,data):
         if self.head == -1:
             self.head = 0
@@ -35,6 +37,7 @@ class Queue:
             self.tab[self.tail] = data
             self.tail = (self.tail + 1) % self.size
 
+
     def is_empty(self) -> bool:
         if self.tab[self.head] is None:
             return True
@@ -43,7 +46,7 @@ class Queue:
     def peek(self):
         print(self.tab[self.head])
 
-    
+    #remove from queue
     def dequeue(self):
         if self.tab[self.head] is None:
             return None
