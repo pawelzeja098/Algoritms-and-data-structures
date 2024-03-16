@@ -11,7 +11,20 @@ class Queue:
     def realloc(self, size):
         oldSize = len(self.tab)
         self.tab = [self.tab[i] if i<oldSize else None  for i in range(size)]
+        
+        curr_val = []
+        curr_val = self.tab[self.head:self.size]
+        self.tab[self.size + self.head:] = curr_val
+        i = self.head
+        while i < self.size:
+            self.tab[i] = None
+            i += 1
+        self.tail = self.head
+        self.head += self.size
         self.size = size
+        
+        
+        a = 3
     
     def enqueue(self,data):
         if self.head == -1:
@@ -19,16 +32,11 @@ class Queue:
             self.tail = 0
             self.tab[self.tail] = data
             self.tail += 1
-        
-        
         else:
-            # self.tail = (self.tail + 1) % self.size
-            # self.tab[self.tail] = data
-            # self.tail += 1
-            if self.tail == len(self.tab):  # Check if array is full
+            if self.tail == self.head:  # Check if array is full
                 self.realloc(len(self.tab) * 2)  # Double the size of the array
             self.tab[self.tail] = data
-            self.tail += 1
+            self.tail = (self.tail + 1) % self.size
 
     def is_empty(self) -> bool:
         if self.tab[self.head] is None:
@@ -46,7 +54,7 @@ class Queue:
         x = self.tab[self.head]
         # print(self.tab[self.head])
         self.tab[self.head] = None
-        self.head += 1
+        self.head = (self.head + 1) % self.size
         return x
         
 
