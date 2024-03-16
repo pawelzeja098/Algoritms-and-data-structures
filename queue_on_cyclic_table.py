@@ -5,7 +5,7 @@ class Queue:
         self.head = -1 #index to read
         self.tail = -1 #index to save
         self.size = size
-        # self.curr_size = self.size()
+        
 
     
     def realloc(self, size):
@@ -22,9 +22,6 @@ class Queue:
         self.tail = self.head
         self.head += self.size
         self.size = size
-        
-        
-        a = 3
     
     def enqueue(self,data):
         if self.head == -1:
@@ -33,7 +30,7 @@ class Queue:
             self.tab[self.tail] = data
             self.tail += 1
         else:
-            if self.tail == self.head:  # Check if array is full
+            if self.tail == self.head:  # Check if queue is full
                 self.realloc(len(self.tab) * 2)  # Double the size of the array
             self.tab[self.tail] = data
             self.tail = (self.tail + 1) % self.size
@@ -48,27 +45,31 @@ class Queue:
 
     
     def dequeue(self):
-        if self.head == -1:
-            print('Can`t remove from empty queue')
-            return
+        if self.tab[self.head] is None:
+            return None
         x = self.tab[self.head]
-        # print(self.tab[self.head])
         self.tab[self.head] = None
         self.head = (self.head + 1) % self.size
+        print(x)
         return x
         
-
-
     def __str__(self):
-        pass
-    
-    def display(self):
-        print(self.tab)
-        # print(len(self.tab))
-        
-    # def size(self):
-    #     q_size = self.head - self.tail
-    #     return q_size
+        res = '['
+        indx = self.head
+        first_iteration = True
+        while self.tab[indx] is not None:
+            if not first_iteration:
+                res += ' '  
+            res += str(self.tab[indx])
+            first_iteration = False
+            indx = (indx + 1) % self.size
+        res += ']'  
+        return res
+
+
+    #Used to testing
+    # def display(self):
+    #     print(self.tab)
 
 def main():
     queue = Queue()
@@ -76,23 +77,24 @@ def main():
     queue.enqueue(2)
     queue.enqueue(3)
     queue.enqueue(4)
-    queue.display()
+    
     queue.dequeue()
     
     queue.peek()
-    queue.display()
+    
+    print(queue)
     queue.enqueue(5)
     queue.enqueue(6)
     queue.enqueue(7)
     queue.enqueue(8)
-    queue.display()
+    
+    print(queue)
 
     elem = queue.dequeue()
     while elem is not None:
-        print(elem)
         elem = queue.dequeue()
-    queue.display()
-    print(queue.is_empty())
+    print(queue)
+    
 
 
 main()
