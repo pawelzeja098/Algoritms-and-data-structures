@@ -17,50 +17,49 @@ class Linked_list:
     #add to the beggining of the list
     def add(self,data) -> None:
         new_node = Node(data)
-        new_node.next = self.head
-        new_node.prev = None
-
-        if self.head is not None:
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
             self.head.prev = new_node
-        
-        self.head = new_node
+            self.head = new_node
     
     #add to the end of the list
     def append(self,data) -> None:
         new_node = Node(data)
         if self.head is None:
             self.head = new_node
+            self.tail = new_node
         else:
-            current_node = self.head
-            while(current_node.next):
-                current_node = current_node.next
-            
-            current_node.next = new_node
+            self.tail.next = new_node
+            new_node.prev = self.tail
+            self.tail = new_node
 
 
     #remove from beggining of the list
     def remove(self) -> None:
         if self.head is None:
-            print("Can`t remove from an empty list")
+            print("Can't remove from an empty list")
             return
-        self.head = self.head.next
+        if self.head.next is None:
+            self.head = None
+            self.tail = None
+        else:
+            self.head = self.head.next
+            self.head.prev = None
 
     #remove from the end of the list
     def remove_end(self) -> None:
         if self.head is None:
-            print("Can`t remove from an empty list")
+            print("Can't remove from an empty list")
             return
-        current_node = self.head
-        if self.length() < 2:
-            if current_node.next is None:
-                self.head = None
-                return
-            current_node.next = None
-            return
-        
-        while(current_node.next.next):
-            current_node = current_node.next
-        current_node.next = None
+        if self.head.next is None:
+            self.head = None
+            self.tail = None
+        else:
+            self.tail = self.tail.prev
+            self.tail.next = None
  
     def display(self, quantity):
         current_node = self.head
@@ -77,7 +76,13 @@ class Linked_list:
    
     #destroy the list
     def destroy(self) -> None:
+        current_node = self.head
+        while current_node:
+            next_node = current_node.next
+            del current_node
+            current_node = next_node
         self.head = None
+        self.tail = None
 
     
 
