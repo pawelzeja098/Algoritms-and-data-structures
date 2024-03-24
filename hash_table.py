@@ -1,4 +1,4 @@
-#tyle prób szukania ile size tablicy
+
 class Hash_table:
     def __init__(self,size,c1 = 1,c2 = 0) -> None:
         self.tab = [None for i in range(size)]
@@ -7,7 +7,7 @@ class Hash_table:
         self.c2 = c2
 
     def hashing(self,elem):
-        
+        #look for index
         if isinstance(elem.key, str):
             for i in elem.key:
                 key = 0
@@ -20,14 +20,11 @@ class Hash_table:
     
     
     def solve_collision(self,elem):
+        #solve collision using open adressing
         idx = self.hashing(elem)
-        n_idx = (idx + self.c1 * elem.key + self.c2 * elem.key ** 2) % self.size
-        if self.tab[n_idx] is None:
-
-            return n_idx
         i = 0
         while i <= self.size:
-            n_idx = (n_idx + self.c1 * elem.key + self.c2 * elem.key ** 2) % self.size
+            n_idx = (idx + self.c1 * i + self.c2 * i ** 2) % self.size
             if self.tab[n_idx] is None:
                 return n_idx
             i += 1
@@ -36,15 +33,13 @@ class Hash_table:
         
         for elem in self.tab:
             if elem is not None and elem.key == key:
-                print(f'Dana o kluczu {key} to {elem.value}')
+                print(f'Data assigned for key: {key} is {elem.value}')
                 return elem.value
-        print('Brak danej o podanym kluczu')
+        print('No data assigned for that key')
         return None
 
         
     def insert(self,elem):
-        # print(elem.key)
-        
         #check if key is already in table
         for elem_in_tab in self.tab:
             if  elem_in_tab is not None and elem_in_tab.key == elem.key:
@@ -52,12 +47,13 @@ class Hash_table:
                 return
 
         idx = self.hashing(elem)
+        #if found index is already taken
         if self.tab[idx] is not None:
             n_idx = self.solve_collision(elem)
             if n_idx is not None:
                 self.tab[n_idx] = elem
                 return
-            print("Brak miejsca")
+            print("No space available")
             return
         self.tab[idx] = elem
 
@@ -76,8 +72,7 @@ class Hash_table:
                 res += 'None' + ','
         return res + '}'
 
-    def display(self):
-        print(self.tab)
+    
 class Elem():
     def __init__(self,key,value) -> None:
         self.key = key
@@ -85,8 +80,8 @@ class Elem():
         
 
 def main():
-    def test1():
-        tab = Hash_table(13)
+    def test1(c1,c2):
+        tab = Hash_table(13,c1,c2)
         i = 1
         data = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O']
         
@@ -116,14 +111,29 @@ def main():
         print(tab)
         tab.search(31)
 
-        elem = Elem('W','test')
+        elem = Elem('test','W')
         tab.insert(elem)
 
-    test1()
+    def test2(c1,c2):
+        tab = Hash_table(13,c1,c2)
+        i = 13
+        j = 0
+        data = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O']
+        while i != 13 * 13:
+            elem = Elem(i,data[j])
+            
+            tab.insert(elem)
+            i += 13
+            j += 1
+        
+        print(tab)
+
+
+    test1(1,0)
+    test2(1,0)
+    test2(0,1)
+    test1(0,1)
             
 
 main()
 
-# a = 'abcd'
-# for i in a:
-#     print(i)
