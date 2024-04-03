@@ -24,14 +24,45 @@ class Unrolled_list:
         
         if not self.tab:
             current = Elem()
-            self.tab[0] = current
+            self.head = current.node
+            self.tab.append(current)
             self.nbNode += 1
         
+        current = self.tab[0]
+        
+        node_idx = idx // self.size
+
+        prev = None
+        i = 0
+        while current is not None and node_idx > 0:
+            
+            current = self.tab[i]
+            prev = current
+            current = current.next
+            node_idx -= 1
+
+        current = prev
+
         if idx < self.size and current.node[idx] is None:
             
             current.node[idx] = data
             current.nbElem += 1
             return
+        
+        
+        
+        if current is None:
+            current = Elem()
+            current.next = None
+            self.nbNode += 1
+            self.tab.append(current)
+
+            current.node[idx % self.size] = data
+            return
+            
+
+
+
         # if self.head == None:
         #     self.tab[idx] = data
         #     self.head = idx
@@ -52,24 +83,20 @@ class Unrolled_list:
             for i in current.node:
                 if i is None:
                     current.node[i] = data
+                    current.nbElem += 1
                     return
             new_node = Elem()
             new_node.node[0] = data
+            self.nbNode += 1
             self.tab.append(new_node)
             return
 
             
 
         node_idx = idx // self.size
-
-        
-
         current = self.tab[node_idx]
-
-        
-        while current.next is not None:
-            current = current.next
-        
+        # while current.next is not None:
+        #     current = current.next
         new_node = Elem()
         self.nbNode = 1
 
@@ -99,7 +126,7 @@ def main():
 
     size = 6
     tab = Unrolled_list(size)
-    for i in range(1,9):
+    for i in range(1,10):
         tab.insert(i-1,i)
     tab.display()   
 
