@@ -25,12 +25,6 @@ class Unrolled_list:
                     if count - 1 == idx:
                         return val
 
-                
-                
-                    
-
-            
-
     
     def insert(self,idx,data):
         

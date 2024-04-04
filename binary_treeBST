@@ -1,0 +1,26 @@
+class RootNode:
+    def __init__(self) -> None:
+        self.root = None
+
+class TreeNode:
+    def __init__(self,key,value) -> None:
+        self.key = key
+        self.value = value
+        self.child_right = None
+        self.child_left = None
+    
+    def insert(self) -> None:
+        pass
+
+    def search(self):
+        pass
+
+    def delete(self):
+        pass
+
+    def print_tree(self):
+        pass
+
+    def height(self):
+        pass
+
