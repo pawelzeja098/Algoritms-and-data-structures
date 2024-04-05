@@ -7,4 +7,4 @@ Solutions for Algorithms and Data Structures course on AGH in Automatic control 
 - Doubly linked list
 - Cirrcular array
 - Unrolled linked list (TO FIX: interation must not include None)
-- Hash table (TO FIX: search and remove computational complexity from O(n) to O(1)
+- Hash table (TO FIX: search and remove computational complexity from O(n) to O(1))
