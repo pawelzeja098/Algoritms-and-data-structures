@@ -1,26 +1,136 @@
-class RootNode:
-    def __init__(self) -> None:
-        self.root = None
-
-class TreeNode:
+class Node:
     def __init__(self,key,value) -> None:
         self.key = key
         self.value = value
         self.child_right = None
         self.child_left = None
-    
-    def insert(self) -> None:
-        pass
 
-    def search(self):
-        pass
+class Tree:
+    def __init__(self) -> None:
+        self.root = None
+    
+    def insert(self,key,value) -> None:
+        #create root
+        if not self.root:
+            node = Node(key,value)
+            self.root = node
+            return
+        
+        
+
+
+        node = Node(key,value)
+        #create first child to root
+        if self.root.child_left is None and self.root.child_right is None:
+            if key < self.root.key:
+                self.root.child_left = node
+                return
+
+            else:
+                self.root.child_right = node
+                return
+        
+        #change root value if the same key as root
+        if node.key == self.root.key:
+            self.root = node
+            return
+
+        #choose path from root
+        elif node.key < self.root.key:
+            next_n = self.root.child_left
+            if next_n == None:
+                self.root.child_right = node
+        else:
+            next_n = self.root.child_right
+            if next_n == None:
+                self.root.child_right = node
+                return
+
+
+        
+
+        #look for placement
+        while next_n:
+            left = False
+            right = False
+            #left child
+            if node.key < next_n.key:
+                current = next_n
+                next_n = current.child_left
+                left = True
+            #change value for the same key
+            elif node.key == next_n.key:
+                next_n.value = node.value
+                return
+            #right child
+            else:
+                current = next_n
+                next_n = current.child_right
+                right = True
+
+        
+        if left:
+            current.child_left = node
+        if right:
+            current.child_right = node
+
+
+    def print_tree(self):
+        print("==============")
+        self.__print_tree(self.root, 0)
+        print("==============")
+
+    def __print_tree(self, node, lvl):
+        if node!=None:
+            self.__print_tree(node.child_right, lvl+5)
+
+            print()
+            print(lvl*" ", node.key, node.value)
+     
+            self.__print_tree(node.child_left, lvl+5)
+    
+    def search(self,key,node = None):
+        
+        if node is None:
+            node = self.root
+
+        if key == node.key:
+            return node.value
+
+        if key < node.key:
+            return self.search(key, node.child_left)
+        elif key > node.key:
+            return self.search(key, node.child_right)
+
+        return None
+        
+
+        
+
 
     def delete(self):
         pass
 
-    def print_tree(self):
-        pass
+    # def print_tree(self):
+    #     pass
 
     def height(self):
         pass
 
+
+def main():
+    
+    data = {50:'A', 15:'B', 62:'C', 5:'D', 20:'E', 58:'F', 91:'G', 3:'H', 8:'I', 37:'J', 60:'K', 24:'L'}
+
+    keys = [50,15,62,5,20,58,91,3,8,37,60,24]
+    
+
+    tree = Tree()
+    for i in keys:
+        tree.insert(i,data[i])
+    tree.print_tree()
+    print(tree.search(24))
+    tree.insert(20,'AA')
+    tree.print_tree()
+
+main()
