@@ -7,7 +7,7 @@ class Elem:
 
 class Unrolled_list:
     def __init__(self,size = 6) -> None:
-        # self.tab = Elem()
+        
         self.tab = []
         self.size = size
         self.head = None
@@ -39,10 +39,7 @@ class Unrolled_list:
             self.head.node[idx] = data
             self.head.nbElem += 1
             return
-        # if self.head.nbElem == self.size:
-        #     self.tail = Elem()
-        #     self.tab.append(self.tail)
-        #     self.nbNode += 1
+        
         
         node_idx = idx // self.size
         
@@ -95,104 +92,6 @@ class Unrolled_list:
         return
 
 
-            
-        # current = self.head
-        # if self.head.nbElem == self.size:
-        #     self.tail = Elem() 
-        # if current.nbElem == self.size:
-        #     current.next = Elem()
-        # node_idx = idx // self.size
-        # # while node_idx > 0:
-        # prev = None
-        # i = 1
-        # curr = self.tail
-        # while curr is not None and node_idx > 0:
-            
-        #     # current = self.tab[i]
-        #     prev = current
-        #     curr = self.tab[i]
-        #     node_idx -= 1
-        #     i += 1
-
-        # if curr:
-        #     self.tail = curr.node[idx % self.size]
-        # if prev:
-        #     current = prev
-
-        # if idx < self.size and current.node[idx] is None:
-            
-        #     self.head.node[idx] = data
-        #     self.head.nbElem += 1
-        #     return
-        
-        
-        
-        # if self.tail is None:
-        #     self.tail = Elem()
-        #     # current.next = None
-        #     self.nbNode += 1
-        #     self.tab.append(self.tail)
-        #     # self.tail = current
-        #     self.tail.node[idx % self.size] = data
-        #     return
-
-        # else:
-        #     if self.tail.node[idx % self.size] is not None:
-        #           self.tail.node[idx % self.size] = data
-        #           return 
-
-
-
-        # if self.head == None:
-        #     self.tab[idx] = data
-        #     self.head = idx
-        #     self.tail = idx
-
-        # if idx == self.size:
-
-        #     tab = Elem(self.size + 1)
-        #     for i in range(self.size):
-        #         tab[i] = self.tab[i]
-        #     tab[idx] = data
-        #     self.tab = tab
-        #     self.size += 1
-        #     return    
-
-        # if idx > self.size * len(self.tab):
-        #     current.node = self.tab[-1]
-        #     for i in current.node:
-        #         if i is None:
-        #             current.node[i] = data
-        #             current.nbElem += 1
-        #             return
-        #     new_node = Elem()
-        #     new_node.node[0] = data
-        #     self.nbNode += 1
-        #     self.tab.append(new_node)
-        #     return
-
-            
-
-        # node_idx = idx // self.size
-        # current = self.tab[node_idx]
-        # # while current.next is not None:
-        # #     current = current.next
-        # new_node = Elem()
-        # self.nbNode = 1
-
-        # for i in range(self.size // 2):
-        #     new_node.elem[i] = current.elem[self.size // 2 + i]
-        #     current.elem[self.size // 2 + i] = None
-
-        # if idx > self.size:    
-        #     new_node.elem[idx] = data
-        #     new_node.nbElem += 1
-        #     current.next = new_node 
-        # else:
-        #     current.elem[idx] = data
-        #     current.nbElem += 1
-        
-        # a = 5
     
     def display(self):
         for idx, elem in enumerate(self.tab):
