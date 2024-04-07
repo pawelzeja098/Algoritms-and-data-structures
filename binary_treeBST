@@ -104,18 +104,85 @@ class Tree:
 
         return None
         
+    def search_to_delete(self,key,node = None, prev = None, left = False):
 
+        if node is None:
+            node = self.root
+
+        if key == node.key:
+            return node, prev, left
+
+        if key < node.key:
+            return self.search_to_delete(key, node.child_left,node,True)
+        elif key > node.key:
+            return self.search_to_delete(key, node.child_right,node,False)
+
+        return None
+
+
+    def delete(self,key,node = None,prev = None,left = False):
         
+        if node == None:
+            node, prev, left = self.search_to_delete(key)
 
 
-    def delete(self):
-        pass
+        if node.child_left == None and node.child_right == None:
+            if left:
+                prev.child_left = None
+                return
+            else:
+                prev.child_right = None
+                return
+        
+        elif node.child_right == None or node.child_left == None:
+            if node == prev.child_left:
+                
+                if node.child_right:
+                    prev.child_left = node.child_right
+                else:
+                    prev.child_left = node.child_left
+                
+                
+                return
+            else:
+                
+                if node.child_right:
+                    prev.child_right = node.child_right
+                else:
+                    prev.child_right = node.child_left
+                
+                return
+        else:
+            curr = node.child_right
+            i = 0
+            prev1 = None
+            while curr is not None:
+                prev = prev1
+                prev1 = curr
+                curr = curr.child_left
+                i += 1
+                
+            node.key = prev1.key
+            node.value = prev1.value
+            if i != 1:
+                return self.delete(prev1.key,prev1,prev,True)
+            else:
+                return self.delete(prev1.key,prev1,node,False)
+            
+
+
+
 
     # def print_tree(self):
     #     pass
 
-    def height(self):
-        pass
+    # def height(self,node = None):
+    #     if not node:
+    #         node = self.root
+        
+    #     while node:
+
+
 
 
 def main():
@@ -132,5 +199,28 @@ def main():
     print(tree.search(24))
     tree.insert(20,'AA')
     tree.print_tree()
+
+    tree.insert(6,'M')
+    tree.print_tree()
+    tree.delete(62)
+    tree.print_tree()
+    tree.insert(59,'N')
+    tree.insert(100,'P')
+    
+    tree.delete(8)
+    tree.print_tree()
+    tree.delete(15)
+    tree.print_tree()
+    
+    tree.insert(55,'R')
+    tree.print_tree()
+    tree.delete(50)
+    tree.print_tree()
+    tree.delete(5)
+    tree.print_tree()
+    tree.delete(24)
+    tree.print_tree()
+
+
 
 main()
