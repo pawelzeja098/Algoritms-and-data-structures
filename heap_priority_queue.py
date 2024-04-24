@@ -70,7 +70,8 @@ class Pqueue:
         if left_idx < self.heap_size and self.queue[left_idx] > self.queue[idx]:
             largest = left_idx
         if right_idx < self.heap_size and self.queue[right_idx] > self.queue[idx]:
-            largest = right_idx
+            if self.queue[right_idx] > self.queue[left_idx]:
+                largest = right_idx
         if largest != idx:
             temp = self.queue[idx]
             self.queue[idx] = self.queue[largest]
@@ -119,6 +120,8 @@ def main():
     deq = 0
     while deq != None:
         deq = queue.dequeue()
+        if deq != None:
+            print(deq)
     queue.print_tab()
            
 
