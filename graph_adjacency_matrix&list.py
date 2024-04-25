@@ -1,4 +1,5 @@
 #inf  o krawędzi none
+#mozna liniowo wyszukiwac numer
 class Node():
     def __init__(self) -> None:
         pass
@@ -12,4 +13,4 @@ class Node():
 
     def __str__(self) -> str:
         pass
-        
+    
