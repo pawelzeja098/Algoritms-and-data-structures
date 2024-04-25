@@ -77,7 +77,7 @@ def test2():
     c_t_shift = t_stop - t_start
     print("Czas obliczeń:", "{:.7f}".format(t_stop - t_start))
 
-    
+
 
     
 main()
