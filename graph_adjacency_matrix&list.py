@@ -14,3 +14,50 @@ class Node():
     def __str__(self) -> str:
         pass
     
+class ListGraph():
+    def __init__(self) -> None:
+        pass
+    
+    def is_empty(self):
+        pass
+
+    def insert_vertex(self,vertex):
+        pass
+    
+
+    def insert_edge(self,vertex1, vertex2, egde):
+        pass
+
+    def delete_vertex(self,vertex):
+        pass
+
+    
+    def delete_edge(self,vertex1, vertex2):
+        pass
+
+
+
+class MatrixGraph():
+    def __init__(self) -> None:
+        pass
+    
+    def is_empty(self):
+        pass
+
+    def insert_vertex(self,vertex):
+        pass
+    
+
+    def insert_edge(self,vertex1, vertex2, egde):
+        pass
+
+    def delete_vertex(self,vertex):
+        pass
+
+    
+    def delete_edge(self,vertex1, vertex2):
+        pass
+
+
+def main():
+    pass
