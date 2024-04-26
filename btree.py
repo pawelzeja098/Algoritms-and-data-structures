@@ -70,12 +70,22 @@ class Btree:
             right_child.keys.extend(curr.keys[:])
             del curr.keys[:]
             if parent:
-                parent.keys.append(key_p)
-                # self.add_to_node(key_p,parent)
+                
+                # self.add_to_node(key_p,c_idx,parent)
+                
                 if len(parent.keys) == self.max_child - 1:
+                    if parent == self.root:
+                        parent = self.root_split(parent,key_p)
                     self.add_to_node(key_p,None,parent)
                     return
+                idx_p = 0
+                for i in parent.keys:
+                    if i > key_p:
+                        parent.keys.insert(idx_p,key_p)
+                        break
+                    idx_p += 1
                 
+                # self.add_to_node(key_p,parent)
                 parent.children[c_idx]=left_child
                 if parent.children[c_idx + 1] is None:
                     parent.children[c_idx + 1] = right_child
@@ -91,14 +101,44 @@ class Btree:
                     return
 
                         
-            # curr.keys.append(key_p)
-            
+            curr.keys.append(key_p)
             curr.children[0] = (left_child)
             curr.children[1] = (right_child)
             return key_p
         
         return None
 
+    def root_split(self,curr,key_p):
+        self.root = Node(self.max_child)
+        self.root.keys.append(key_p)
+        
+        left_p = Node(self.max_child)
+        left_c_p = curr.children[0]
+        left_p.children[0] = left_c_p
+        left_c_p = curr.children[1]
+        left_p.children[1] = left_c_p
+        
+        right_p = Node(self.max_child)
+        right_c_p = curr.children[2]
+        right_p.children[0] = right_c_p
+        right_c_p = curr.children[3]
+        right_p.children[1] = right_c_p
+
+        
+
+        right_p.keys = curr.keys[:2]
+        left_p.keys = curr.keys[2:]
+
+        self.root.children[0] = right_p
+        self.root.children[1] = left_p
+        return right_p
+        # idx = self.max_child // 2
+        # left_child = Node(self.max_child)
+        # left_child.keys.extend(curr.keys[:idx])
+        # del curr.keys[:idx]
+        # right_child = Node(self.max_child)
+        # right_child.keys.extend(curr.keys[:])
+        # del curr.keys[:]
 
 
 
@@ -130,6 +170,7 @@ def main():
     keys = [5, 17, 2, 14, 7, 4, 12, 1, 16, 8, 11, 9, 6, 13, 0, 3, 18, 15, 10, 19]
     for i in keys:
         tree.insert(i)
+        tree.print_tree()
     tree.insert(2000)
     tree.print_tree()
     
