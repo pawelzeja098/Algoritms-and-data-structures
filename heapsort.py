@@ -38,13 +38,22 @@ class Pqueue:
             return None
         return self.queue[0]
 
+    def deq(self,should_print = True):
+        deq = 0
+        while deq != None:
+            deq = self.dequeue()
+            if deq != None and should_print == True:
+                print(deq)
+        return self.queue
+
+
 
     def dequeue(self):
-        if self.is_empty():
+        if self.heap_size == 0:
             return None
         deq = self.queue[0]
-        self.queue[0] = self.queue[self.heap_size - 1]
-        self.queue = self.queue[:-1]
+        self.queue[0],self.queue[self.heap_size - 1] = self.queue[self.heap_size - 1], self.queue[0]
+        
         self.heap_size -= 1
         self.fix_sort_heap(0)
         return deq
@@ -96,12 +105,8 @@ def main():
     heap_tab = Pqueue(tab)
     heap_tab.print_tab()
     heap_tab.print_tree(0,0)
-    deq = 0
-    while deq != None:
-        deq = heap_tab.dequeue()
-        if deq != None:
-            print(deq)
-    heap_tab.print_tab()
+    res = heap_tab.deq()
+    print(res)
 
 def test2():
     tab = []
@@ -112,6 +117,7 @@ def test2():
     t_start = time.perf_counter()
     # testowana metoda
     heap = Pqueue(tab_t_s)
+    heap.deq(False)
     t_stop = time.perf_counter()
     print("Czas obliczeń:", "{:.7f}".format(t_stop - t_start))
 
