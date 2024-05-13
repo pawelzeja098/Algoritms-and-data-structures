@@ -4,9 +4,9 @@ import turtle
 class Vertex:
     def __init__(self,key) -> None:
         self.key = key
-        # self.data = data
+        
 
-    #compare
+    
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Vertex):
             return self.key == other.key
@@ -155,6 +155,7 @@ def main(graph):
         
         else:
             graph.insert_edge(ex_v1,ex_v2)
+
     graph.delete_vertex(graph.get_vertex('K'))
     graph.delete_edge(graph.get_vertex('W'),graph.get_vertex('E'))
     polska.draw_map(graph)
@@ -162,5 +163,5 @@ def main(graph):
 graphL = ListGraph()
 graphM = MatrixGraph()
 
-# main(graphL)
-main(graphM)
+main(graphL)
+# main(graphM)
