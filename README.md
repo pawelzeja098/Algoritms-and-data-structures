@@ -12,3 +12,4 @@ Solutions for Algorithms and Data Structures course on AGH in Automatic control 
 - Heap priority queue
 - Heap sort
 - Selection sort
+- Btree - not finished
