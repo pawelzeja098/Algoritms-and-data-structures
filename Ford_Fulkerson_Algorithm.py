@@ -47,28 +47,30 @@ class ListGraph:
 
     def insert_edge(self,vertex1, vertex2, edge = None):
         self.graph[vertex1][vertex2] = edge
-        # self.graph[vertex2][vertex1] = edge
 
 
-
-    def Bfs_search(self):
+    def bfs_search(self):
+        start_vertex = self.get_vertex('s')
         visited = []
         parent = {}
         queue = []
+
         
-        visited.append(self.get_vertex('s'))
-        queue.append(self.get_vertex('s'))
+        queue.append(start_vertex)
+        visited.append(start_vertex)
 
         while queue:
-            curr = queue[0]
-            neighbs = self.neighbours(curr)
-            for ver in neighbs:
-                if ver not in visited and ver[1].flow > 0 :
-                    visited.append(ver)
-                    parent[curr] = ver
-                    #TO DO: DODANIE DO SŁOWNIKA PARENT
-                    queue.append(ver)
+            current_vertex = queue.pop(0)
+
+            for neighbor, edge in self.graph[current_vertex].items():
+                if neighbor not in visited and edge.residual > 0:
+                    visited.append(neighbor)
+                    parent[neighbor] = current_vertex
+                    queue.append(neighbor)
+
         return parent
+        
+
 
     def delete_vertex(self,vertex):
         neighbours = self.neighbours(vertex)
@@ -78,25 +80,69 @@ class ListGraph:
         del self.graph[vertex]
 
     def min_capacity(self,parents):
-        end_v = self.get_vertex('t')
+        end_v_key = self.get_vertex('t')
+        
         min_flow = float('Inf')
-        curr = end_v
-        if parents[end_v]:
-            while curr != self.get_vertex('s'):
-                for p in parents[curr]:
-                    if p.flow < min_flow:
-                        min_flow = p.flow
-
+        curr = end_v_key
+       
+        
+        if end_v_key in parents:
+    
+            while curr != self.get_vertex_items('s'):
+                
+                parent_ver = parents[curr]
+                edge = self.graph[parent_ver][curr]
+                if edge.residual < min_flow:
+                    min_flow = edge.residual
+                curr = parent_ver    
+            return min_flow
 
         return 0    
         
 
+    def path_augmentation(self,parents,min_capacity):
+        curr = self.get_vertex('t')
+        while curr != self.get_vertex('s'):
+            parent_ver = parents[curr]
+            edge = self.graph[parent_ver][curr]
+
+            if edge.isResidual:
+                edge.residual -= min_capacity
+                edgerev = self.graph[curr][parent_ver]
+                edgerev.flow -= min_capacity
+                edgerev.residual += min_capacity
+                curr = parent_ver
+            
+            else:
+                edge.flow += min_capacity
+                edge.residual -= min_capacity
+                edgerev = self.graph[curr][parent_ver]
+                edgerev.residual += min_capacity
+                curr = parent_ver
+        
+        
 
 
+    def ford_fulkerson_algorithm(self):
+        parents = self.bfs_search()
 
+        if self.get_vertex('t') not in parents:
+            raise ValueError('Path from s to t not found')
+        
+        min_capacity = self.min_capacity(parents)
+        flow = min_capacity
+        while min_capacity > 0:
+            self.path_augmentation(parents,min_capacity)
 
+            parents = self.bfs_search()
 
+            min_capacity = self.min_capacity(parents)
 
+            flow += min_capacity
+        
+        return flow
+        
+        
     def delete_edge(self,vertex1, vertex2):
         if vertex1 in self.graph and vertex2 in self.graph[vertex1]:
             del self.graph[vertex1][vertex2]
@@ -104,48 +150,81 @@ class ListGraph:
             del self.graph[vertex2][vertex1]
 
     def neighbours(self,vertex_id):
-        return list(self.graph[vertex_id].items())
+        try:
+            return list(self.graph[vertex_id[0]].items())
+        except TypeError:
+            return list(self.graph[vertex_id].items())
     
     def vertices(self):
         return list(self.graph.keys())
     
     def get_vertex(self,vertex_id):
-        for vert in self.graph:
+        for vert, k in self.graph.items():
             if vert == vertex_id:
                 return vert
-            
+        
+    def get_vertex_items(self,vertex_id):
+        for vert, k in self.graph.items():
+            if vert == vertex_id:
+                return vert.key
+        
+    
+    
+    def get_vertexidx(self,vertex):
+        return self.graph[vertex]
+
+    def printGraph(self):
+        print("------GRAPH------")
+        vertic = self.vertices()
+        for v in vertic:
+            print(v, end = " -> ")
+            for (n, w) in self.neighbours(v):
+                print(n, w, end=";")
+            print()
+        print("-------------------")       
 
         
 def main():
     graf_0 = [ ('s','u',2), ('u','t',1), ('u','v',3), ('s','v',1), ('v','t',2)]
+    graf_1 = [ ('s', 'a', 16), ('s', 'c', 13), ('c', 'a', 4), ('a', 'b', 12), ('b', 'c', 9), ('b', 't', 20), ('c', 'd', 14), ('d', 'b', 7), ('d', 't', 4) ]
+    graf_2 = [ ('s', 'a', 3), ('s', 'c', 3), ('a', 'b', 4), ('b', 's', 3), ('b', 'c', 1), ('b', 'd', 2), ('c', 'e', 6), ('c', 'd', 2), ('d', 't', 1), ('e', 't', 9)]
+    graphs = [graf_0,graf_1,graf_2]
 
-    graph = ListGraph()
+    for graf in graphs:
 
-    for data in graf_0:
-        vert1 = Vertex(data[0])
-        vert2 = Vertex(data[1])
-        edg = Edge(data[3],False)
-        edgRes = Edge(data[3],True)
+        graph = ListGraph()
 
-        ex_v1 = graph.insert_vertex(vert1)
-        ex_v2 = graph.insert_vertex(vert2)
+        for data in graf:
+            vert1 = Vertex(data[0])
+            vert2 = Vertex(data[1])
+            edg = Edge(data[2],False)
+            edgRes = Edge(data[2],True)
 
-        if ex_v1 is None and ex_v2 is None:
-            graph.insert_edge(vert1,vert2,edg)
-            graph.insert_edge(vert2,vert1,edgRes)
+            ex_v1 = graph.insert_vertex(vert1)
+            ex_v2 = graph.insert_vertex(vert2)
 
+            if ex_v1 is None and ex_v2 is None:
+                graph.insert_edge(vert1,vert2,edg)
+                graph.insert_edge(vert2,vert1,edgRes)
+
+            
+            elif ex_v1 is None and ex_v2 is not None:
+                graph.insert_edge(vert1,ex_v2,edg)
+                graph.insert_edge(ex_v2,vert1,edgRes)
+            
+            elif ex_v2 is None and ex_v1 is not None:
+                graph.insert_edge(ex_v1,vert2,edg)
+                graph.insert_edge(vert2,ex_v1,edgRes)
+            
+            else:
+                graph.insert_edge(ex_v1,ex_v2,edg)
+                graph.insert_edge(ex_v2,ex_v1,edgRes)
+
+        graph.printGraph()
         
-        elif ex_v1 is None and ex_v2 is not None:
-            graph.insert_edge(vert1,ex_v2,edg)
-            graph.insert_edge(ex_v2,vert1,edgRes)
-        
-        elif ex_v2 is None and ex_v1 is not None:
-            graph.insert_edge(ex_v1,vert2,edg)
-            graph.insert_edge(vert2,ex_v1,edgRes)
-        
-        else:
-            graph.insert_edge(ex_v1,ex_v2,edg)
-            graph.insert_edge(ex_v1,ex_v2,edgRes)
+        print(graph.ford_fulkerson_algorithm())
+
+        graph.printGraph()
 
 
 
