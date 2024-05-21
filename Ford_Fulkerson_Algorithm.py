@@ -25,7 +25,7 @@ class Edge:
         self.residual = capacity
 
     def __repr__(self) -> str:
-        return f'{self.flow} {self.residual} {self.isResidual}'
+        return f'{self.capacity} {self.flow} {self.residual} {self.isResidual}'
     
 
 
@@ -220,7 +220,6 @@ def main():
                 graph.insert_edge(ex_v1,ex_v2,edg)
                 graph.insert_edge(ex_v2,ex_v1,edgRes)
 
-        graph.printGraph()
         
         print(graph.ford_fulkerson_algorithm())
 
