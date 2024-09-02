@@ -13,3 +13,8 @@ Solutions for Algorithms and Data Structures course on AGH in Automatic control 
 - Heap sort
 - Selection sort
 - Btree - not finished
+- Prim's algorithm
+- Ford-Fulkerson's method
+- Ullmann`s algorithm
+- Naive and Rabin Karp method
+- Convex hull
